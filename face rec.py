@@ -70,15 +70,25 @@ def process_frame(frame, face_data, save_new_face=False):
 
 video_capture = cv2.VideoCapture(0)
 
-video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+if not video_capture.isOpened():
+    print("Cannot open camera")
+    exit()
+
+# video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+# video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
+video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
 
 face_data = load_face_data()
 
 while True:
     ret, frame = video_capture.read()
-    if not ret:
-        break
+    
+    if not ret or frame is None:
+        print("Failed to grab frame")
+        continue
 
  
     save_new_face = False
